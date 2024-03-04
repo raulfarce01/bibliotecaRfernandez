@@ -54,9 +54,9 @@ class Book extends Model
     }
 
     public static function updateBook($id, $title, $release){
-        $book = Book::where("id", "=", $id);
+        $book = Book::find($id);
 
-        if($book){
+        if(isset($book)){
             $book->title = $title;
             $book->release = $release;
             $book->save();
