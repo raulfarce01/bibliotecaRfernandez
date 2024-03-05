@@ -9,7 +9,7 @@ class Genre extends Model
 {
     use HasFactory;
 
-    public function books(){
+    public function book(){
         return $this->belongsToMany(Book::class, 'genre_book', 'genre_id', 'book_id');
     }
 }

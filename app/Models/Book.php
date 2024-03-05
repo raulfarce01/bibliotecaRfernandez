@@ -15,11 +15,11 @@ class Book extends Model
     protected $table = "books";
 
     //Preguntar Belongs y eso en tablas N:N
-    public function authors(){
+    public function author(){
         return $this->belongsToMany(Author::class, 'author_book', 'book_id', 'author_id');
     }
 
-    public function genres(){
+    public function genre(){
         return $this->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
     }
 
