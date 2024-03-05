@@ -7,6 +7,7 @@
     <title>Library</title>
 </head>
 <body>
+    @extends('navigation-menu');
 
 </body>
 </html>

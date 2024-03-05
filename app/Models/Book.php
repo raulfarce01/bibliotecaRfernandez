@@ -16,15 +16,15 @@ class Book extends Model
 
     //Preguntar Belongs y eso en tablas N:N
     public function authors(){
-        return $this->belongsToMany(Author::class);
+        return $this->belongsToMany(Author::class, 'author_book', 'book_id', 'author_id');
     }
 
     public function genres(){
-        return $this->belongsToMany(Genre::class);
+        return $this->belongsToMany(Genre::class, 'genre_book', 'book_id', 'genre_id');
     }
 
     public function loans(){
-        return $this->belogsToOne(Loan::class);
+        return $this->hasMany(Loan::class);
     }
 
     public static function getAllBooks(){
@@ -45,36 +45,36 @@ class Book extends Model
 
     public static function saveBook($title, $release){
         $book = new Book();
+        $allBooks = Book::all();
 
         $book->title = $title;
         $book->release = $release;
         $book->save();
 
-        return new Response(["success" => true, "message" => "Se ha creado el libro correctamente"]);
+        return redirect('/');
     }
 
     public static function updateBook($id, $title, $release){
         $book = Book::find($id);
+        $allBooks = Book::all();
 
         if(isset($book)){
             $book->title = $title;
             $book->release = $release;
             $book->save();
 
-            return new Response(["success" => true, "message" => "Se ha actualizado el libro correctamente"]);
+            return redirect('/');
         }
 
         return new Response(["success" => false, "message" => "No se ha podido encontrar el libro"]);
     }
 
-    public static function deleteBook($oldClause){
-        $book = Book::where("title", "=", $oldClause)
-                    ->orWhere("release", "LIKE", "%".$oldClause."%")
-                    ->orWhere("id", "=", $oldClause);
+    public static function deleteBook($bookId){
+        $book = Book::find($bookId);
 
-        if($book){
+        if(isset($book)){
             $book->delete();
-            return new Response(["success" => true, "message" => "Se ha eliminado el libro correctamente"]);
+            return redirect('/');
         }
 
         return new Response(["success" => false, "message" => "No se ha podido encontrar el libro"]);
