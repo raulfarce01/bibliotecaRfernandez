@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Loan;
 use App\Models\User;
-use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class loanController extends Controller
 {
@@ -18,19 +19,18 @@ class loanController extends Controller
     }
 
     public function index(){
-        $allLoans = $this->loan->getAllLoans();
-        return view('loan_show', ['loans' => $allLoans]);
+        $userLoans = Loan::getUserLoans();
+        return view('loan_show', ['loans' => $userLoans]);
     }
 
     public function showAddLoan(){
         $allBooks = Book::all();
-        $allUsers = User::all();
-        return view('loan_add', ['books' => $allBooks, 'users' => $allUsers]);
+        return view('loan_add', ['books' => $allBooks]);
     }
 
     public function addLoan(Request $request){
         $book = $request->input('book');
-        $user = $request->input('user');
+        $user = Auth::user();
 
         return Loan::addLoan($book, $user);
     }

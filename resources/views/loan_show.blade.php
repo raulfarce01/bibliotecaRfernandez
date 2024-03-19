@@ -1,3 +1,6 @@
+@extends('baseTemplate')
+@section('main')
+@auth
 <a href="{{ route('showAddLoan') }}">Add Loan</a>
 <table>
 
@@ -27,3 +30,11 @@
 
 @endforeach
 </table>
+@endsection
+@endauth
+
+@guest
+    <script>
+        window.location = "/login";
+    </script>
+@endguest

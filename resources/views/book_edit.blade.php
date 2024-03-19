@@ -1,3 +1,6 @@
+@extends('baseTemplate')
+@section('main')
+@auth
 <form action="{{ route('editBookPost', ["bookId" => $book->id]) }}" method="POST">
     @csrf
     <label for="title">Title: </label>
@@ -6,3 +9,11 @@
     <input type="date" name="release" id="release" value="{{ $book->release }}">
     <button type="submit">Edit Book</button>
 </form>
+@endsection
+@endauth
+
+@guest
+    <script>
+        window.location = "/login";
+    </script>
+@endguest

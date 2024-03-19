@@ -1,3 +1,6 @@
+@extends('baseTemplate')
+@section('main')
+@auth
 <form action="{{ route('addLoan') }}" method="POST">
     @csrf
     <label for="book">Book: </label>
@@ -8,11 +11,12 @@
             @endif value="{{ $book->id }}">{{ $book->id }} - {{ $book->title }}</option>
         @endforeach
     </select>
-    <label for="user">User: </label>
-    <select name="user" id="user">
-        @foreach ($users as $user)
-            <option value="{{ $user->id }}">{{ $user->id }} - {{ $user->email }} - {{ $user->name }}</option>
-        @endforeach
-    </select>
     <button type="submit">Add Loan</button>
 </form>
+@endsection
+@endauth
+@guest
+    <script>
+        window.location = "/login";
+    </script>
+@endguest

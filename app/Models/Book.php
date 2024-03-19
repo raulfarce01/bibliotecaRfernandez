@@ -43,13 +43,19 @@ class Book extends Model
         //Preguntar consultas con claves foraneas
     }
 
-    public static function saveBook($title, $release){
+    public static function saveBook($title, $release, $authors){
         $book = new Book();
-        $allBooks = Book::all();
 
         $book->title = $title;
         $book->release = $release;
         $book->save();
+
+        foreach ($authors as $author){
+
+            $authorLast = Author::addAuthor($author);
+            $book->author()->attach($authorLast->id);
+
+        }
 
         return redirect('/');
     }

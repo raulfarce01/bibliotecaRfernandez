@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class Loan extends Model
 {
@@ -41,7 +42,7 @@ class Loan extends Model
 
             $loan->loan_date = $loanDate;
             $loan->return_date = $returnDate;
-            $loan->user_id = $user->id;
+            $loan->user_id = $user[0]->id;
             $loan->book_id = $book->id;
             $loan->returned = 0;
 
@@ -75,5 +76,17 @@ class Loan extends Model
         }
 
         return new Response(['success' => false, 'message' => "No se ha encontrado el préstamo"]);
+    }
+
+    public static function getUserLoans(){
+
+        $userId = Auth::id();
+
+        $userLoans = Loan::where('user_id', '=', $userId)->get();
+
+        /* dd(json_encode($userLoans)); */
+
+        return $userLoans;
+
     }
 }
